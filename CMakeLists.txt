@@ -64,7 +64,7 @@ foreach(TCL_PATH ${TCL_POSSIBLE_PATHS})
     break()
   endif()
 endforeach()
-find_package(TCL)
+find_package(TCL QUIET)
 
 if(NOT TCL_INCLUDE_PATH)
   foreach(TCL_PATH ${TCL_POSSIBLE_PATHS})

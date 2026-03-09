@@ -18,6 +18,7 @@ Makefile.bak
 .cache
 .vs
 .vscode
+CMakeUserPresets.json
 .flatpak-builder
 
 engines/phalanx-scid/phalanx-scid
