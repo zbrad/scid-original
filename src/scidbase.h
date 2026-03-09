@@ -356,8 +356,8 @@ struct scidBaseT {
 			tagsBuf.clear();
 			IndexEntry const& ie = *getIndexEntry(gnum);
 			auto gamedata = getGame(ie);
-			auto err = gamedata.decodeTags(
-			    [&](auto const& tag, auto const& value) {
+			err = gamedata.decodeTags(
+				[&](auto const& tag, auto const& value) {
 				    if (std::find(removeTags.begin(), removeTags.end(), tag) !=
 				        removeTags.end())
 					    changed = true;

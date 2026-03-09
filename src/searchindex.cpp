@@ -68,9 +68,12 @@ public:
 	}
 
 	bool operator() (gamenumT gnum) const {
-		bool res = mask_[(base_->getIndexEntry(gnum)->*f1_)()];
+		const IndexEntry* ie = base_->getIndexEntry(gnum);
+		const auto idx1 = (ie->*f1_)();
+		bool res = mask_[idx1];
 		if (!res && f2_ != 0) {
-			return mask_[(base_->getIndexEntry(gnum)->*f2_)()];
+			const auto idx2 = (ie->*f2_)();
+			return mask_[idx2];
 		}
 		return res;
 	}

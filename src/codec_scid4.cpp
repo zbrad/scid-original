@@ -574,11 +574,11 @@ errorT CodecSCID4::dyn_open(fileModeT fMode, const char* filename,
 			                    nb->calcNameFreq(*idx_));
 		}
 	} else {
-		if (auto err = namefileRead(filenames_[1].c_str(), fMode, *nb_))
-			return err;
+		if (errorT e = namefileRead(filenames_[1].c_str(), fMode, *nb_))
+			return e;
 
-		if (auto err = idxfile_.Open(indexFilename, fMode))
-			return err;
+		if (errorT e = idxfile_.Open(indexFilename, fMode))
+			return e;
 
 		auto [errHeader, nGames] = readIndexHeader(idxfile_, header_);
 		if (errHeader)

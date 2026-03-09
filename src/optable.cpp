@@ -444,10 +444,10 @@ OpLine::PrintSummary (DString * dstr, uint format, bool fullDate, bool nmoves)
         date_DecodeToString (Date, dateStr);
         // Remove any unknown date fields:
         auto s_end = dateStr + 16;
-        auto s = std::find(dateStr + 4, s_end, '?');
-        if (s != s_end) {
-            s--;
-            *s = 0;
+        auto it = std::find(dateStr + 4, s_end, '?');
+        if (it != s_end) {
+            it--;
+            *it = 0;
         }
         dstr->Append (dateStr);
     } else {
@@ -1119,11 +1119,11 @@ OpTable::PrintLaTeX (DString * dstr, const char * title, const char * comment)
 
         // Print number of games in this row, and White percentage score:
         dstr->Append (" & ", NLines[row], " & ");
-        uint score = 0;
+        uint rowScore = 0;
         if (NLines[row] > 0) {
-            score = (RowScore[row] * 50 + (NLines[row]/2)) / NLines[row];
+            rowScore = (RowScore[row] * 50 + (NLines[row]/2)) / NLines[row];
         }
-        dstr->Append (score, "\\% \\\\\n");
+        dstr->Append (rowScore, "\\% \\\\\n");
     }
 
     dstr->Append ("\\hline\n");
@@ -1181,11 +1181,11 @@ OpTable::PrintHTML (DString * dstr, const char * title, const char * comment)
         }
         // Print number of games in this row, and White percentage score:
         dstr->Append (" <td>", NLines[row], ": ");
-        uint score = 0;
+        uint rowScore = 0;
         if (NLines[row] > 0) {
-            score = (RowScore[row] * 50 + (NLines[row]/2)) / NLines[row];
+            rowScore = (RowScore[row] * 50 + (NLines[row]/2)) / NLines[row];
         }
-        dstr->Append (score, "% </td> ");
+        dstr->Append (rowScore, "% </td> ");
         dstr->Append ("</tr>\n");
     }
     dstr->Append ("</table>");
@@ -1305,11 +1305,11 @@ OpTable::PrintText (DString * dstr, const char * title, const char * comment,
         // Print number of games in this row, and White percentage score:
         sprintf (cell, "%2u:", NLines[row]);
         wstr->Append (cell);
-        uint score = 0;
+        uint rowScore = 0;
         if (NLines[row] > 0) {
-            score = (RowScore[row] * 50 + (NLines[row]/2)) / NLines[row];
+            rowScore = (RowScore[row] * 50 + (NLines[row]/2)) / NLines[row];
         }
-        sprintf (cell, "%2u%%", score);
+        sprintf (cell, "%2u%%", rowScore);
         bstr->Append (cell);
         dstr->Append (wstr->Data(), "\n", bstr->Data(), "\n\n");
     }
@@ -1754,11 +1754,11 @@ OpTable::TopPlayers (DString * dstr, colorT c, uint count)
             dstr->Append (nextCell, tempStr);
 
             // Print peak Elo while playing this line:
-            uint maxElo = pf[index].maxElo;
-            if (maxElo == 0) {
+            uint playerElo = pf[index].maxElo;
+            if (playerElo == 0) {
                 sprintf (tempStr, "%s    %s", preElo, postElo);
             } else {
-                sprintf (tempStr, "%s%4u%s", preElo, maxElo, postElo);
+                sprintf (tempStr, "%s%4u%s", preElo, playerElo, postElo);
             }
             dstr->Append (nextCell, " ", tempStr);
             dstr->Append (nextCell, " ", startName);
@@ -1772,15 +1772,15 @@ OpTable::TopPlayers (DString * dstr, colorT c, uint count)
             // Print the note numbers containing games by this player:
             if (pf[index].noteNumber[0] != 0) {
                 dstr->Append (startNotes);
-                for (uint n=0; n < PLAYERFREQ_MAXNOTES; n++) {
-                    if (pf[index].noteNumber[n] == 0) { break; }
-                    if (n > 0) { dstr->Append (","); }
+                for (uint ni=0; ni < PLAYERFREQ_MAXNOTES; ni++) {
+                    if (pf[index].noteNumber[ni] == 0) { break; }
+                    if (ni > 0) { dstr->Append (","); }
                     if (Format == OPTABLE_CText) {
-                        dstr->Append ("<go n", pf[index].noteNumber[n]);
-                        dstr->Append (">", pf[index].noteNumber[n], "</go>");
+                        dstr->Append ("<go n", pf[index].noteNumber[ni]);
+                        dstr->Append (">", pf[index].noteNumber[ni], "</go>");
 
                     } else {
-                        dstr->Append (pf[index].noteNumber[n]);
+                        dstr->Append (pf[index].noteNumber[ni]);
                     }
                 }
                 if (pf[index].noteNumber[PLAYERFREQ_MAXNOTES] != 0) {

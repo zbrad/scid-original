@@ -3667,7 +3667,6 @@ sc_game_tags (ClientData cd, Tcl_Interp * ti, int argc, const char ** argv)
         case OPT_SHARE:  return sc_game_tags_share (cd, ti, argc, argv);
         default:         return InvalidCommand (ti, "sc_game tags", options);
     }
-    return TCL_OK;
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -5026,14 +5025,13 @@ sc_pos_isAt (ClientData, Tcl_Interp * ti, int argc, const char ** argv)
     case OPT_VEND:
         return UI_Result(ti, OK, db->game->AtVarEnd());
 
-    default:
-        return errorResult (ti, "Usage: sc_pos isAt start|end|vstart|vend");
+            default:
+                return errorResult (ti, "Usage: sc_pos isAt start|end|vstart|vend");
+        }
     }
-    return TCL_OK;
-}
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// sc_pos_isPromo:
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // sc_pos_isPromo:
 //    Takes two squares (from and to, in either order) and
 //    returns true if they represent a pawn promotion move.
 int
@@ -6609,8 +6607,6 @@ UI_res_t sc_name(UI_extra_t cd, UI_handle_t ti, int argc, const char** argv) {
     default:
         return InvalidCommand (ti, "sc_name", options);
     }
-
-    return TCL_OK;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -7008,8 +7004,6 @@ sc_tree (ClientData cd, Tcl_Interp * ti, int argc, const char ** argv)
     default:
         return InvalidCommand (ti, "sc_tree", options);
     }
-
-    return TCL_OK;
 }
 
 // @returns the tree stats of the specified filter
@@ -7929,7 +7923,7 @@ sc_search_header (ClientData, Tcl_Interp * ti, scidBaseT* base, HFilter& filter,
     bool wToMove = true;
     bool bToMove = true;
 
-    decltype(Tcl_GetCharLength(nullptr)) pgnTextCount; // size type changed with Tcl9
+    decltype(Tcl_GetCharLength(nullptr)) pgnTextCount = 0; // size type changed with Tcl9
     const char ** sPgnText = NULL;
 
     int arg = 2;
@@ -8264,8 +8258,6 @@ sc_book (ClientData cd, Tcl_Interp * ti, int argc, const char ** argv)
     default:
         return InvalidCommand (ti, "sc_book", options);
     }
-
-    return TCL_OK;
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~

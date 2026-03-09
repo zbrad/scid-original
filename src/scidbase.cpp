@@ -607,7 +607,7 @@ errorT scidBaseT::getCompactStat(unsigned long long* n_deleted,
 
 	*n_unused = 0;
 	for (nameT n = NAME_PLAYER; n < NUM_NAME_TYPES; n++) {
-		*n_unused += std::count(nbFreq[n].begin(), nbFreq[n].end(), 0);
+		*n_unused += std::count(nbFreq[n].begin(), nbFreq[n].end(), uint{});
 	}
 
 	*n_badNameId = idx->GetBadNameIdCount();

@@ -1696,11 +1696,11 @@ errorT Game::WriteMoveList(TextBuffer* tb, moveT* oldCurrentMove,
         preCommentStr = "";
         postCommentStr = "";
     }
-    moveT * m = CurrentMove;
+    moveT * firstMove = CurrentMove;
 
     // Print null moves:
     if ((PgnStyle & PGN_STYLE_NO_NULL_MOVES) && !inComment &&
-            IsPlainFormat() && m->isNull()) {
+            IsPlainFormat() && firstMove->isNull()) {
         inComment = true;
         tb->PrintString(preCommentStr);
         preCommentStr = "";

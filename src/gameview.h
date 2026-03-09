@@ -509,7 +509,6 @@ public:
 
 			ply += 2;
 		}
-		return 0;
 	}
 
 private:

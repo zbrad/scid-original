@@ -174,13 +174,17 @@ private:
 		return true;
 	}
 
-	template <colorT TOMOVE>
-	bool SetFilter(scidBaseT const& base, HFilter& filter,
-	               const Progress& prg) const {
-		struct Sync {
-			alignas(64) std::atomic<gamenumT> n_done{0};
-			alignas(64) std::atomic<bool> interrupted{false};
-		} sync;
+	#ifdef _MSC_VER
+	#pragma warning(push)
+	#pragma warning(disable: 4324)
+	#endif
+		template <colorT TOMOVE>
+		bool SetFilter(scidBaseT const& base, HFilter& filter,
+					   const Progress& prg) const {
+			struct Sync {
+				alignas(64) std::atomic<gamenumT> n_done{0};
+				alignas(64) std::atomic<bool> interrupted{false};
+			} sync;
 
 		auto worker = [&](gamenumT start, gamenumT end) {
 			constexpr gamenumT rep_freq = 32 * 1024;
@@ -233,6 +237,9 @@ private:
 		}
 		return !sync.interrupted;
 	}
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 };
 
 #endif

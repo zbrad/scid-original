@@ -67,8 +67,6 @@ inline int Main (int argc, char* argv[], void (*exit) (void*)) {
 	} else {
 		Tcl_MainEx(argc, argv, UI_impl::initTclTk, Tcl_CreateInterp());
 	}
-
-	return 0;
 }
 
 class tcl_Progress : public Progress::Impl {

@@ -1352,10 +1352,10 @@ Position::Mobility (pieceT p, colorT color, squareT from)
 
         while (dest != last) {
             dest += delta;
-            pieceT p = Board[dest];
-            if (p == EMPTY) {  // Empty square
+            pieceT piece = Board[dest];
+            if (piece == EMPTY) {  // Empty square
                 mobility++;
-            } else if (piece_Color(p) == color) {  // Friendly piece
+            } else if (piece_Color(piece) == color) {  // Friendly piece
                 break;  // Finished with this direction.
             } else {  // Enemy piece
                 mobility++;

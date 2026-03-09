@@ -3,7 +3,8 @@
 #	Copyright (C) 2000-2002, Shane Hudson (sgh@users.sourceforge.net)
 #
 #	Microsoft Visual C++ makefile for use with nmake.exe v1.62+ (VC++ 5.0+)
-#       VC++ 6 and 7
+#       VC++ 6, 7, and modern Visual Studio (2019, 2022, 2026+)
+#       Updated for VS2026 with improved warning handling and C++20 support
 #------------------------------------------------------------------------------
 #
 #	Usage:
@@ -104,15 +105,17 @@ TMP_DIR		= $(OUT_DIR)\Temp
 !message *** Intermediate directory	= '$(TMP_DIR)'
 
 ##	TCL_VERSION: Tcl/Tk version
-#	This should be "85" for Tcl/Tk 8.5, etc.
+#	"86" for Tcl/Tk 8.6, "90" for Tcl/Tk 9.0, etc.
 #
-TCL_VERSION	= 86
+TCL_VERSION	= 90
 
 ##	SCID_INCLUDES: included files from Tcl/Tk
 #	This will try to find your Tcl/Tk installation.
 #
 !ifndef TCL_DIR
-!if exist("C:\Tcl\include\tcl.h")
+!if exist("C:\Program Files\Tcl\include\tcl.h")
+TCL_DIR		= C:\Program Files\Tcl
+!elseif exist("C:\Tcl\include\tcl.h")
 TCL_DIR		= C:\Tcl
 !else
 MSG=^
@@ -213,14 +216,18 @@ OPTIMIZE	= $(OPTIMIZE) -GL
 !endif
 !endif
 
-##	WARNINGS: I always compile with all warnings on (-Wall)
-#	Note: (-W2) is the default for MS compiler.
+##	WARNINGS: Warning level for compilation
+#	-W4	:Enable level 4 warnings (most warnings)
+#	-WX-	:Do not treat warnings as errors
+#	-wd####	:Disable specific warnings
 #
 !if "$(DEBUG)" == "1"
-WARNINGS	= -W3
+WARNINGS	= -W4 -WX-
 !else
-WARNINGS	= -W2
+WARNINGS	= -W4 -WX-
 !endif
+# Disable specific noisy warnings
+WARNINGS	= $(WARNINGS) -wd4100 -wd4127 -wd4244 -wd4267 -wd4458 -wd4459
 
 ##	PROFILE: Set profile for compiling
 #	-DNDEBUG		:Turn off debug code
@@ -236,10 +243,16 @@ PROFILE		= -DNDEBUG
 PROFILE		= $(PROFILE) -DWIN32 -DWIN32_LEAN_AND_MEAN
 
 ##	CFLAGS: C++ compiler flags
-#	-c	:Compile Without linking
+#	-c		:Compile Without linking
+#	-std:c++20	:C++20 standard
+#	-permissive-	:Standards conformance mode
+#	-Zc:__cplusplus	:Enable correct __cplusplus macro value
+#	-utf-8		:Set source and execution character sets to UTF-8
+#	-MP		:Enable multi-processor compilation
 #
 CFLAGS		= $(PROFILE) $(OPTIMIZE) $(WARNINGS) \
-			$(SCID_INCLUDES) -c -nologo -std:c++20
+			$(SCID_INCLUDES) -c -nologo -std:c++20 \
+			-permissive- -Zc:__cplusplus -utf-8 -MP
 !message *** CFLAGS: $(CFLAGS)
 
 
