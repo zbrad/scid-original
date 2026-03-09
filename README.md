@@ -20,6 +20,61 @@ make install
 
 The `Scid.app` folder contains the app, which can be moved to other directories, such as `/Applications`. It is also possible to create a symbolic link to the executable `Scid.app/Contents/scid/scid`.
 
+## Building on Windows (Visual Studio 2022/2026)
+
+### Prerequisites
+
+- **Visual Studio 2022 or 2026** with the *Desktop development with C++* workload
+- **Tcl/Tk 9.0** — install via Chocolatey or download from [tcl.tk](https://www.tcl.tk/software/tcltk/):
+  ```
+  choco install magicsplat-tcl-tk
+  ```
+  Default install path: `C:\Program Files\Tcl`
+
+### Build
+
+1. Clone the repository and open the folder in Visual Studio (File → Open → Folder).
+2. Visual Studio detects `CMakePresets.json` automatically.
+3. Select the **x64 Debug** or **x64 Release** configure preset from the toolbar.
+4. Build → Build All (`Ctrl+Shift+B`).
+
+The output executable is placed in `out\build\<preset>\scid.exe`.
+
+> **VS 2026 note:** A regression in VS 2026 causes `cmake` configure to fail when using the
+> Ninja generator if `vcvars64` is not activated. `CMakePresets.json` in this repo includes a
+> workaround via `$penv{VCToolsInstallDir}` / `$penv{WindowsSdkDir}` macros.
+> See [`BUG_REPORT_VS2026.md`](BUG_REPORT_VS2026.md) for details.
+
+### Run / Debug from Visual Studio
+
+The startup configuration is in `.vs/launch.vs.json` (tracked in git).
+It sets:
+
+| Setting | Value |
+|---------|-------|
+| Startup project | `scid.exe` |
+| Command arguments | `tcl/start.tcl` |
+| Working directory | repository root |
+| PATH prepend | `C:\Program Files\Tcl\bin` (Tcl 9.0 runtime DLL) |
+
+To run: set **scid.exe** as the startup item in the toolbar, then press **F5**.
+
+### nmake (legacy)
+
+`Makefile.vc` provides an alternative nmake-based build from a Developer Command Prompt:
+
+```bat
+nmake -f Makefile.vc release TCL_DIR="C:\Program Files\Tcl"
+```
+
+Key `Makefile.vc` settings (do not need to change for a default Tcl 9.0 install):
+
+| Macro | Default | Description |
+|-------|---------|-------------|
+| `TCL_DIR` | `C:\Program Files\Tcl` | Tcl/Tk installation root |
+| `TCL_VERSION` | `90` | Tcl version (`86` = 8.6, `90` = 9.0) |
+| `DEBUG` | _(unset)_ | Set to `1` for a debug build |
+
 Please report issues and bugs here:
 https://sourceforge.net/projects/scid/  
 For other problems or support, try reaching out to the mailing list:
