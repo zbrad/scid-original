@@ -1,0 +1,23 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+      "type": "default",
+      "project": "CMakeLists.txt",
+      "projectTarget": "scid.exe",
+      "name": "scid.exe",
+      "args": [ "tcl/start.tcl" ],
+      "currentDir": "${workspaceRoot}",
+      "env": {
+        "PATH": "C:\\Program Files\\Tcl\\bin;${env.PATH}"
+      }
+    },
+    {
+      "type": "default",
+      "project": "CMakeLists.txt",
+      "projectTarget": "phalanx-scid.exe",
+      "name": "phalanx-scid.exe"
+    }
+  ]
+}

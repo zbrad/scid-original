@@ -43,9 +43,7 @@ if(MSVC)
   add_definitions(/D_CRT_SECURE_NO_WARNINGS /D_SCL_SECURE_NO_WARNINGS /D_CRT_NONSTDC_NO_DEPRECATE)
   # Standards compliance flags applied to all targets
   add_compile_options(/permissive- /Zc:__cplusplus /utf-8 /MP)
-  # To run/debug using Visual Studio set "scid" as startup project and add:
-  # Command Arguments: ../tcl/start.tcl
-  # Environment:       PATH=C:\tcl\bin
+  # To run/debug using Visual Studio set "scid" as startup project; see .vs/launch.vs.json
 endif()
 
 find_package(Threads)

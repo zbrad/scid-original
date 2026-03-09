@@ -16,7 +16,8 @@ Makefile.bak
 *.patch
 
 .cache
-.vs
+.vs/*
+!.vs/launch.vs.json
 .vscode
 CMakeUserPresets.json
 .flatpak-builder

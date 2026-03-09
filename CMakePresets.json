@@ -13,8 +13,12 @@
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "installDir": "${sourceDir}/out/install/${presetName}",
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "cl.exe",
-        "CMAKE_CXX_COMPILER": "cl.exe"
+        "CMAKE_C_COMPILER": "$penv{VCToolsInstallDir}bin\\Hostx64\\x64\\cl.exe",
+        "CMAKE_CXX_COMPILER": "$penv{VCToolsInstallDir}bin\\Hostx64\\x64\\cl.exe"
+      },
+      "environment": {
+        "INCLUDE": "$penv{VCToolsInstallDir}include;$penv{VCToolsInstallDir}ATLMFC\\include;$penv{WindowsSdkDir}include\\$penv{WindowsSDKVersion}ucrt;$penv{WindowsSdkDir}include\\$penv{WindowsSDKVersion}um;$penv{WindowsSdkDir}include\\$penv{WindowsSDKVersion}shared;$penv{WindowsSdkDir}include\\$penv{WindowsSDKVersion}winrt;$penv{WindowsSdkDir}include\\$penv{WindowsSDKVersion}cppwinrt",
+        "LIB": "$penv{VCToolsInstallDir}ATLMFC\\lib\\x64;$penv{VCToolsInstallDir}lib\\x64;$penv{WindowsSdkDir}lib\\$penv{WindowsSDKVersion}ucrt\\x64;$penv{WindowsSdkDir}lib\\$penv{WindowsSDKVersion}um\\x64"
       },
       "condition": {
         "type": "equals",
